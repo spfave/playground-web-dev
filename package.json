@@ -1,0 +1,13 @@
+{
+  "name": "sandbox-fullstack-teaching-demos",
+  "author": "Sebastian F",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [
+    "html",
+    "css",
+    "javascript"
+  ],
+  "scripts": {}
+}
