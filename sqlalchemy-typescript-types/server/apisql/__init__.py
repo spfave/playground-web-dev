@@ -5,11 +5,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+db = SQLAlchemy()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("SQLALCHEMY_DATABASE_URI")
-db = SQLAlchemy(app)
+db.init_app(app)
 
-from apisql import routes
+# from apisql import routes
 
 print("__init__")
