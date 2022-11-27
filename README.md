@@ -8,4 +8,5 @@
 
 
 ### Proof of Concept
-- [SQLAlchemy to TS Type Generation](sqlalchemy-typescript-types)
+- [TypeScript Async and Promise POCs](./ts-async-promises/)
+- [SQLAlchemy Model to TypeScript Type Generation](sqlalchemy-typescript-types)
