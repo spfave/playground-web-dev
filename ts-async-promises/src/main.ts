@@ -1,32 +1,42 @@
 export {};
+import type { User, Users } from './types';
 const urlUsers = 'https://jsonplaceholder.typicode.com/users';
 
-// Promise: No error handling, No types
-// const promUsers = new Promise(async (resolve, reject) => {
-//   const response = await fetch(urlUsers);
-//   const data = await response.json();
-//   console.info(`response: `, response);
-//   console.info(`data: `, data);
-//   resolve(data);
-// });
-// console.info(`promUsers: `, promUsers);
-
-// Fetch promise chain: No error handling, No types
+// FETCH promise chain:
 // prettier-ignore
-// fetch(urlUsers)                   // fetch(): () -> Promise<Response>
-//   .then((res) => {                // res: Response
-//     res.json();                   // json(): () -> Promise<any>
-//   })
-//   .then((data) => {               // data: any
-//     console.log(data);
-//   });
+const fetchUsersTyped = fetch(urlUsers)       // fetch(): () -> Promise<Response>
+  .then((res) => {                            // res: Response
+    console.info(`res: `, res);
+    // return res.json();                     // json(): () -> Promise<any>
+    return res.json() as Promise<Users>;      // typecast as Promise<T>
+  })
+  .then((data) => {                           // data: any, data: Users
+    console.info(`data: `, data);
+  });
+console.info(`fetchUserTyped: `, fetchUsersTyped);
 
-// Async function: No error handling, No types
-// async function getUsers1() {
-//   const response = await fetch(urlUsers);
-//   const data = await response.json();
-//   console.info(`response: `, response);
-//   console.info(`data: `, data);
-//   return data;
-// }
-// getUsers1();
+// PROMISE (immediate execution):
+// prettier-ignore
+const promUsersTyped = new Promise(async (resolve, _reject) => {
+  const res = await fetch(urlUsers);          // res: Response
+  // const data = await res.json();           // data: any
+  // const data = await res.json() as Users;  // data: Users
+  const data:Users = await res.json();        // data: Users
+  console.info(`res: `, res);
+  console.info(`data: `, data);
+  resolve(data);
+});
+console.info(`promUsersTyped: `, promUsersTyped);
+
+// ASYNC FUNCTION (call to execute):
+// prettier-ignore
+async function getUsersTyped() {
+  const res = await fetch(urlUsers);          // res: Response
+  // const data = await res.json();           // data: any
+  // const data = await res.json() as Users;  // data: Users
+  const data:Users = await res.json();        // data: Users
+  console.info(`res: `, res);
+  console.info(`data: `, data);
+  return data;
+}
+console.log(`getUsersTyped`, getUsersTyped());
