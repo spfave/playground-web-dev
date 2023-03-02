@@ -4,7 +4,7 @@ export const routes = Router();
 
 // View routes
 routes.get('/', (req: Request, res: Response) => {
-	res.send('Hello');
+	res.render('home');
 });
 
 // API routes
