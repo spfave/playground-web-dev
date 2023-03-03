@@ -33,8 +33,7 @@ Demo application demonstrating different cloudinary image upload methods.
 - Secure (signed) upload over HTTPS using a secure protocol based on your product environment's `cloud_name`, `api_key` and `api_secret` parameters
 - Alternately unsigned upload available without authentication signature
 
-
-
+&nbsp;
 ## **Notes**
 - [Formidable, Busboy, Multer vs Multiparty](https://bytearcher.com/articles/formidable-vs-busboy-vs-multer-vs-multiparty/)
 - [Formidable](https://github.com/node-formidable/formidable)
