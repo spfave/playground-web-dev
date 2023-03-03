@@ -1,7 +1,7 @@
-console.log('fe-direct-api');
+console.log('be-sdk');
 
-const cloudinaryURL = `https://api.cloudinary.com/v1_1/techaloudsolutions/image/upload`;
-const formUpload = document.querySelector('#form-fe-direct-api');
+const serverUploadUrl = `/api/be-sdk`;
+const formUpload = document.querySelector('#form-be-sdk');
 
 formUpload.addEventListener('submit', (event) => {
 	event.preventDefault();
@@ -11,14 +11,15 @@ formUpload.addEventListener('submit', (event) => {
 
 	const formData = new FormData();
 	formData.append('file', image);
-	formData.append('upload_preset', 'tas_unsigned');
-	formData.append('folder', 'demo');
 
-	fetch(cloudinaryURL, {
+	fetch(serverUploadUrl, {
 		method: 'POST',
 		body: formData,
 	})
-		.then((response) => response.json())
+		.then((response) => {
+			console.info(`response: `, response); //LOG
+			return response.json();
+		})
 		.then((data) => {
 			console.info(`data: `, data); //LOG
 		});
