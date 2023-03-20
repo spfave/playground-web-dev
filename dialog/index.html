@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		dialog {
+			width: 500px;
+			background-color: wheat;
+			border: solid purple 2px;
+			font-weight: 700;
+			padding: 0;
+		}
+
+		dialog::backdrop {
+			background-color: aquamarine;
+		}
+
+		dialog:modal {
+			background-color: aqua;
+			border: solid orange 2px;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.modal-section {
+			border: dashed red 2px
+		}
+
+		div.modal-section {
+			flex-grow: 1;
+			overflow: auto;
+		}
+
+		header {
+			position: relative;
+		}
+
+		header button {
+			position: absolute;
+			right: 0;
+			top: 0;
+		}
+	</style>
+</head>
+
+<body>
+	<p>
+		<button id="showDialog">Show the dialog</button>
+	</p>
+
+	<!-- A modal dialog -->
+	<dialog id="dialog">
+		<header class="modal-section">
+			<p>Modal Header</p>
+			<button id="closeDialog" value="cancel">Close</button>
+		</header>
+		<div class="modal-section">
+			<p>Modal Content</p>
+			<br>
+			<p>Modal Content</p>
+			<br>
+			<p>Modal Content</p>
+			<br>
+			<p>Modal Content</p>
+			<br>
+			<p>Modal Content</p>
+			<br>
+			<p>Modal Content</p>
+			<br>
+			<p>Modal Content</p>
+		</div>
+		<footer class="modal-section">
+			<p>Modal Footer</p>
+		</footer>
+	</dialog>
+
+	<!-- JavaScript -->
+	<script>
+		const btnShow = document.getElementById('showDialog');
+		const btnClose = document.getElementById('closeDialog');
+
+		btnShow.addEventListener('click', () => dialog.showModal());
+		btnClose.addEventListener('click', () => dialog.close());
+	</script>
+</body>
+
+</html>
