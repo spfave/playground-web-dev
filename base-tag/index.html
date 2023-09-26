@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>HTML Base Tag</title>
+	<link rel="stylesheet" href="./style.css" />
+	<base href="/base/">
+</head>
+
+<body>
+	<div class="container">
+		<a href="../css-flex-positioning/index.html">Current Relative: css flex positions</a>
+		<a href="/css-flex-positioning/index.html">Root Relative: css flex positions</a>
+
+		<a href="#id">Anchor: #id</a>
+		<a href="?id">Param: ?id</a>
+
+		<a href="section">Current Relative: section</a>
+		<a href="./section">Current Relative: ./section</a>
+		<a href="/section">Root Relative: /section</a>
+	</div>
+</body>
+
+</html>
+
+<!-- Notes
+The <base> HTML element specifies the base URL to use for all relative URLs in a document.
+
+Effects 
+- segment (id anchors, parameter)
+- current location relative a url links (i.e. href="link", href="./link")
+
+Does not effect
+- root relative url links (i.e. href="/link")
+- relative links up a directory (i.e. href="../link")
+
+https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+https://stackoverflow.com/questions/1889076/what-are-the-recommendations-for-html-base-tag
+-->

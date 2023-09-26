@@ -13,3 +13,6 @@
 - [SQLAlchemy Model to TypeScript Type Generation](sqlalchemy-typescript-types)
 - [TypeScript Async and Promise POCs](./ts-async-promises/)
   
+
+### Testing
+- [HTML Base Tag](./base-tag)
