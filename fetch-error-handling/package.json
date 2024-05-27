@@ -1,0 +1,15 @@
+{
+	"name": "fetch-error-handling",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"start": "pnpm run dev",
+		"dev": "vite"
+	},
+	"devDependencies": {
+		"@total-typescript/ts-reset": "^0.5.1",
+		"typescript": "^5.2.2",
+		"vite": "^5.2.0"
+	}
+}
