@@ -1,5 +1,5 @@
-import { getProjectsHappyPath } from '../data';
-import { NonNullish } from './types';
+import { getProjectsHappyPath } from "../data";
+import { NonNullish } from "./types";
 
 // SETTLED PROMISE HELPER
 // OBJECT FORM ------------------------------------------------------------------------------------
@@ -18,7 +18,7 @@ export async function settledObject<TPromise>(promise: Promise<TPromise>) {
 	 * could be undefined.
 	 * Alternately need to define/assert return type on function/return to get desired TS inference.
 	 */
-	return pSettled.status === 'fulfilled' // ? 'fulfilled' : 'rejected'
+	return pSettled.status === "fulfilled" // ? 'fulfilled' : 'rejected'
 		? ({ error: undefined, value: pSettled.value } as const)
 		: ({ error: pSettled.reason as NonNullish, value: undefined } as const);
 	// : ({ error: pSettled.reason as unknown, value: undefined } as const);
@@ -83,7 +83,7 @@ export async function settledArray<TPromise>(promise: Promise<TPromise>) {
 	 * Since the error could be any/unknown (rejected) or undefined (fulfilled), and an any/unknown type
 	 * could be undefined.
 	 */
-	return pSettled.status === 'fulfilled' // ? 'fulfilled' : 'rejected'
+	return pSettled.status === "fulfilled" // ? 'fulfilled' : 'rejected'
 		? ([undefined, pSettled.value] as const)
 		: ([pSettled.reason as NonNullish, undefined] as const);
 	// : ([pSettled.reason as unknown, undefined] as const);

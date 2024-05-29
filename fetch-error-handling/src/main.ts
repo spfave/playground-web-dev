@@ -1,12 +1,12 @@
-import { fetchProjectsHappyPath, fetchProjectsErrorHandling } from './data';
+import { fetchProjectsHappyPath, fetchProjectsErrorHandling } from "./data";
 
 document
-	.querySelector<HTMLButtonElement>('#getProjectsHappyPath')
-	?.addEventListener('click', fetchProjectsHappyPath);
+	.querySelector<HTMLButtonElement>("#getProjectsHappyPath")
+	?.addEventListener("click", fetchProjectsHappyPath);
 
 document
-	.querySelector<HTMLButtonElement>('#getProjectsErrorHandling')
-	?.addEventListener('click', fetchProjectsErrorHandling);
+	.querySelector<HTMLButtonElement>("#getProjectsErrorHandling")
+	?.addEventListener("click", fetchProjectsErrorHandling);
 
 // window.addEventListener('error', (input) => {
 // 	console.warn(`WINDOW: ON ERROR`); //LOG

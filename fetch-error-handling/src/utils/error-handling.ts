@@ -1,4 +1,4 @@
-import { BadResponseError, FetchError, HttpResponseError } from './errors';
+import { BadResponseError, FetchError, HttpResponseError } from "./errors";
 
 /**
  * Stand-in logic for handling thrown errors. This should do something purposeful
@@ -30,15 +30,15 @@ export function handleHttpResponseError(err: HttpResponseError) {
 }
 
 export function getErrorMessage(err: unknown) {
-	if (typeof err === 'string') return err;
+	if (typeof err === "string") return err;
 	if (
 		err &&
-		typeof err === 'object' &&
-		'message' in err &&
-		typeof err.message === 'string'
+		typeof err === "object" &&
+		"message" in err &&
+		typeof err.message === "string"
 	) {
 		return err.message;
 	}
-	console.error('Unable to get error message for error', err);
-	return 'Unknown Error';
+	console.error("Unable to get error message for error", err);
+	return "Unknown Error";
 }

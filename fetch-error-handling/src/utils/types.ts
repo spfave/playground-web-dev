@@ -9,9 +9,9 @@ type ProjectBase = {
 };
 
 type ProjectTypeBase =
-	| { status: 'planning' }
-	| { status: 'building' }
-	| { status: 'complete'; dateCompleted: string; rating: number; recommend: boolean };
+	| { status: "planning" }
+	| { status: "building" }
+	| { status: "complete"; dateCompleted: string; rating: number; recommend: boolean };
 
-export type ProjectStatus = ProjectTypeBase['status'];
+export type ProjectStatus = ProjectTypeBase["status"];
 export type Project = ProjectBase & ProjectTypeBase;
