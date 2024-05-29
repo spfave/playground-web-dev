@@ -1,3 +1,5 @@
+export type NonNullish = {};
+
 type ProjectBase = {
 	id: string;
 	name: string;
