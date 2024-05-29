@@ -1,4 +1,4 @@
-import { getProjectsHappyPath } from './main';
+import { getProjectsHappyPath } from './data';
 
 // ATTEMPT ASYNC/PROMISE HELPER
 async function attempt<TPromise>(
@@ -23,7 +23,7 @@ async function attempt<TPromise>(
 	return { value, exception };
 }
 
-async function test() {
+async function handleAttempt() {
 	const result = await attempt(() => getProjectsHappyPath());
 	// const result = await attempt(getProjectsHappyPath());
 

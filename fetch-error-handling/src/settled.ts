@@ -1,4 +1,4 @@
-import { getProjectsHappyPath } from './main';
+import { getProjectsHappyPath } from './data';
 
 // SETTLED PROMISE HELPER
 // RETURN OBJECT ----------------------------------------------------------------------------------
@@ -22,7 +22,7 @@ async function settledObject<TPromise>(promise: Promise<TPromise>) {
 	// 	: ({ error: true, reason: pSettled.reason } as SettledObject<TPromise>);
 }
 
-async function testSettledObject() {
+async function handleSettledObject() {
 	const result = await settledObject(getProjectsHappyPath());
 
 	// Method 1
@@ -74,7 +74,7 @@ async function settledArray<TPromise>(promise: Promise<TPromise>) {
 		: ([pSettled.reason as unknown, undefined] as const);
 }
 
-async function testSettledArray() {
+async function handleSettledArray() {
 	const result = await settledArray(getProjectsHappyPath());
 
 	// - TS does not infer distinct types through if check on error value (result[0]) in result tuple
