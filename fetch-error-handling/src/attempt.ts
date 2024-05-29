@@ -3,7 +3,7 @@ import { getProjectsHappyPath } from './data';
 // ATTEMPT ASYNC/PROMISE HELPER
 async function attempt<TPromise>(
 	asyncFn: (...args: any[]) => Promise<TPromise>,
-	// promise: Promise<TPromise>, // same inferred return type
+	// promise: Promise<TPromise>, // same TS inference on return type
 	catchFn = (_err: unknown) => {},
 	finallyFn = () => {}
 ) {

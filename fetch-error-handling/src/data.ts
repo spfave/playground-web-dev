@@ -10,11 +10,11 @@ export async function fetchProjectsHappyPath() {
 }
 
 export async function getProjectsHappyPath() {
-	const res = await fetch(REQUEST_URL);
-	console.warn(`res: `, res); //LOG
+	const response = await fetch(REQUEST_URL);
+	console.warn(`response: `, response); //LOG
 
-	// const data = await res.json(); // returns 'unknown' with ts-reset, otherwise any
-	const data = (await res.json()) as Project[];
+	// const data = await response.json(); // returns 'unknown' with ts-reset, otherwise any
+	const data = (await response.json()) as Project[];
 	console.warn(`data: `, data); //LOG
 
 	return data;
@@ -39,10 +39,11 @@ export async function getProjectsErrorHandling() {
 		console.warn(`GET: FETCH ERROR`); //LOG
 		console.error(`err: `, err); //LOG
 		throw new FetchError('Get Projects fetch failed', { cause: err });
+		// return; | Promise.reject(); // cause catch fn to return with void but doesn't break code execution
 	});
-	console.info(`res: `, response); //LOG
+	console.info(`response: `, response); //LOG
 
-	// 2: response can be bad - res.ok is not true (response.status != 2xx)
+	// 2: response can be bad - response.ok is false (response.status != 2xx)
 	// if (!response.ok) {
 	// 	console.warn(`GET: response.ok ERROR`); //LOG
 	// 	// console.info(`json: `, response.status); //LOG
@@ -50,7 +51,7 @@ export async function getProjectsErrorHandling() {
 	// 	throw new BadResponseError('Get Projects bad fetch response', { response });
 	// }
 
-	// 3: if res.ok is true, res can have an HTTP error status code 4xx, 5xx
+	// 3: if response.ok is true, response can have an HTTP error status code 4xx, 5xx
 	if (response.status >= 400) {
 		console.warn(`GET: http status ERROR`); //LOG
 
