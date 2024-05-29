@@ -1,4 +1,4 @@
-import { getProjectsHappyPath } from './data';
+import { getProjectsHappyPath } from '../data';
 
 // SETTLED PROMISE HELPER
 // RETURN OBJECT ----------------------------------------------------------------------------------

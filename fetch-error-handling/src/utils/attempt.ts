@@ -1,4 +1,4 @@
-import { getProjectsHappyPath } from './data';
+import { getProjectsHappyPath } from '../data';
 
 // ATTEMPT ASYNC/PROMISE HELPER
 async function attempt<TPromise>(

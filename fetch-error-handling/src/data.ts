@@ -1,7 +1,7 @@
-import { FetchError, BadResponseError, HttpResponseError } from './errors';
-import { Project } from './types';
+import { FetchError, BadResponseError, HttpResponseError } from './utils/errors';
+import { Project } from './utils/types';
 const URL_API_JSON_SERVER = 'http://localhost:5001';
-const REQUEST_URL = `${URL_API_JSON_SERVER}/projectss`; //qk01
+const REQUEST_URL = `${URL_API_JSON_SERVER}/projects`; //qk01
 
 // HAPPY PATH -----------------------------------------------------------------
 export async function fetchProjectsHappyPath() {
