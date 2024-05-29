@@ -2,50 +2,67 @@ import { getProjectsHappyPath } from '../data';
 import { NonNullish } from './types';
 
 // SETTLED PROMISE HELPER
-// RETURN OBJECT ----------------------------------------------------------------------------------
-type SettledObject<T> = { error: false; value: T } | { error: true; reason: unknown };
-
+// OBJECT FORM ------------------------------------------------------------------------------------
+// type SettledObject<T> = { error: false; value: T } | { error: true; reason: unknown };
 // async function settledObject<TPromise>(promise: Promise<TPromise>): Promise<SettledObject<TPromise>> {
-async function settledObject<TPromise>(promise: Promise<TPromise>) {
+
+export async function settledObject<TPromise>(promise: Promise<TPromise>) {
 	const pSettled = (await Promise.allSettled([promise]))[0];
 
-	// Method 1
+	// Method 1 -
+	/**
+	 * For rejected case define error as '{}: non-nullish' type to get desired TS inference of a returned
+	 * discriminated union and desired type narrowing through an if check.
+	 * If natively inferred as 'any' or asserted as 'unknown' TS does not narrow type through an if check.
+	 * Since the error could be any/unknown (rejected) or undefined (fulfilled), and an any/unknown type
+	 * could be undefined.
+	 * Alternately need to define/assert return type on function/return to get desired TS inference.
+	 */
 	return pSettled.status === 'fulfilled' // ? 'fulfilled' : 'rejected'
 		? ({ error: undefined, value: pSettled.value } as const)
 		: ({ error: pSettled.reason as NonNullish, value: undefined } as const);
+	// : ({ error: pSettled.reason as unknown, value: undefined } as const);
 
-	// Method 2
+	// Method 2 - with defined/asserted return type
 	// return pSettled.status === 'fulfilled'
-	// 	? ({ error: false, value: pSettled.value } as const) // satisfies SettledObject<TPromise> // same TS inference
-	// 	: ({ error: true, reason: pSettled.reason } as const);
+	// 	? ({ error: false, value: pSettled.value } as const)
+	// 	: ({ error: true, reason: pSettled.reason } as const); // satisfies SettledObject<TPromise> // same TS inference
 	// return pSettled.status === 'fulfilled'
 	// 	? ({ error: false, value: pSettled.value } as SettledObject<TPromise>)
-	// 	: ({ error: true, reason: pSettled.reason } as SettledObject<TPromise>);
+	// 	: ({ error: true, reason: pSettled.reason } as SettledObject<TPromise>); // type assertion
 }
 
 async function handleSettledObject() {
 	const result = await settledObject(getProjectsHappyPath());
 
 	// Method 1
-	// - TS does not infer distinct types through if check on error value in result object
-	// - Since the error could be any or undefined, and an any could be undefined.
 	if (result.error != null) {
 		const err = result.error;
 		const val = result.value;
-		throw err;
+		throw err; // need to return or throw to get proper inference after if check scope
 	} else {
 		const err = result.error;
 		const val = result.value;
 	}
+	const err = result.error;
+	const val = result.value;
+
+	const { value, error } = await settledObject(getProjectsHappyPath()); // same results as non-destructuring
+	if (error != null) {
+		const err = error;
+		const val = value;
+		throw err;
+	} else {
+		const err = error;
+		const val = value;
+	}
 
 	// Method 2
-	// - TS does not infer result as a discriminated union
-	// - Need to define or assert return type on 'settledObject' to get discriminated union inference
 	// if (result.error) {
 	// 	const err = result.error;
 	// 	const rsn = result.reason;
 	// 	const val = result.value;
-	// 	throw err; // need to return or throw to get proper inference after if check scope
+	// 	throw err;
 	// } else {
 	// 	const err = result.error;
 	// 	const rsn = result.reason;
@@ -54,73 +71,31 @@ async function handleSettledObject() {
 	// const err = result.error;
 	// const rsn = result.reason;
 	// const val = result.value;
-
-	// const { value, error } = await settledObject(getProjectsHappyPath()); // same results as non-destructuring
-	// if (error != null) {
-	// 	const err = error;
-	// 	const val = value;
-	// 	throw err;
-	// } else {
-	// 	const err = error;
-	// 	const val = value;
-	// }
 }
 
-// RETURN ARRAY -----------------------------------------------------------------------------------
-async function settledArray<TPromise>(promise: Promise<TPromise>) {
+// ARRAY FORM -------------------------------------------------------------------------------------
+export async function settledArray<TPromise>(promise: Promise<TPromise>) {
 	const pSettled = (await Promise.allSettled([promise]))[0];
 
+	/**
+	 * For rejected case define error as '{}: non-nullish' type to get desired TS type narrowing inference.
+	 * If natively inferred as 'any' or asserted as 'unknown' TS does not narrow type through an if check.
+	 * Since the error could be any/unknown (rejected) or undefined (fulfilled), and an any/unknown type
+	 * could be undefined.
+	 */
 	return pSettled.status === 'fulfilled' // ? 'fulfilled' : 'rejected'
 		? ([undefined, pSettled.value] as const)
-		: ([pSettled.reason as unknown, undefined] as const);
+		: ([pSettled.reason as NonNullish, undefined] as const);
+	// : ([pSettled.reason as unknown, undefined] as const);
 }
 
 async function handleSettledArray() {
 	const result = await settledArray(getProjectsHappyPath());
 
-	// - TS does not infer distinct types through if check on error value (result[0]) in result tuple
-	// - Since the error could be any/unknown or undefined, and an any/unknow type could be undefined.
-	if (result[0]) {
-		const err = result[0]; // want as 'unknown'
-		const val = result[1]; // want as 'undefined'/'never'
-		throw err;
-	} else {
-		const err = result[0]; // want as 'undefined'/'never'
-		const val = result[1]; // want as 'Project[]'
-	}
-	const err = result[0]; // want as never
-	const val = result[1]; // want as 'Project[]'
-
-	// const [error, value] = await settledArray(getProjectsHappyPath()); // same results as non-destructuring
-	// if (error) {
-	// 	const err = error;
-	// 	const val = value;
-	// 	return;
-	// } else {
-	// 	const err = error;
-	// 	const val = value;
-	// }
-}
-
-// RETURN ARRAY SOLVED ----------------------------------------------------------------------------
-async function settledArraySolved<TPromise>(promise: Promise<TPromise>) {
-	const pSettled = (await Promise.allSettled([promise]))[0];
-
-	// Solution: For error case define error as non-nullish type to get desired TS inference
-	return pSettled.status === 'fulfilled' // ? 'fulfilled' : 'rejected'
-		? ([undefined, pSettled.value] as const)
-		: ([pSettled.reason as NonNullish, undefined] as const);
-}
-
-async function handleSettledArraySolved() {
-	const result = await settledArraySolved(getProjectsHappyPath());
-
-	// - TS does not infer distinct types through if check on error value (result[0]) in result tuple
-	// - Since the error could be any/unknown or undefined, and any/unknow could be undefined.
 	if (result[0] != null) {
 		const err = result[0];
 		const val = result[1];
-		throw err;
+		throw err; // need to return or throw to get proper inference after if check scope
 	} else {
 		const err = result[0];
 		const val = result[1];
@@ -128,7 +103,7 @@ async function handleSettledArraySolved() {
 	const err = result[0];
 	const val = result[1];
 
-	const [error, value] = await settledArraySolved(getProjectsHappyPath()); // same results as non-destructuring
+	const [error, value] = await settledArray(getProjectsHappyPath()); // same results as non-destructuring
 	if (error != null) {
 		const err = error;
 		const val = value;
