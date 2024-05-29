@@ -1,7 +1,7 @@
 export class FetchError extends Error {
 	name = FetchError.name;
 
-	constructor(message: string = 'Fetch failed', options?: ErrorOptions) {
+	constructor(message: string = "Fetch failed", options?: ErrorOptions) {
 		super(message, options);
 	}
 }
@@ -13,7 +13,7 @@ export class BadResponseError extends Error {
 	// Constructor parameter prefixes auto create class property with name and value
 	// Ref: https://www.typescriptlang.org/docs/handbook/2/classes.html#parameter-properties
 	constructor(
-		message: string = 'Bad fetch response',
+		message: string = "Bad fetch response",
 		readonly context?: BadResponseErrorContext,
 		options?: ErrorOptions
 	) {
@@ -22,21 +22,25 @@ export class BadResponseError extends Error {
 }
 
 type HttpResponseErrorContext = {
-	status?: number;
-	statusText?: string;
-	url?: string;
+	status: number;
+	statusText: string;
+	url: string;
 	message?: string;
 };
 export class HttpResponseError extends Error {
 	readonly name = HttpResponseError.name;
+	readonly context: HttpResponseErrorContext;
 
-	constructor(
-		response: Response,
-		readonly context?: HttpResponseErrorContext,
-		options?: ErrorOptions
-	) {
+	constructor(response: Response, message?: string, options?: ErrorOptions) {
 		const defaultMsg = `${response.status} (${response.statusText}) request ${response.url}`;
-		const message = context?.message ? `${context.message} - ${defaultMsg}` : defaultMsg;
-		super(message, options);
+		const errMsg = message ? `${message} - ${defaultMsg}` : defaultMsg;
+
+		super(errMsg, options);
+		this.context = {
+			status: response.status,
+			statusText: response.statusText,
+			url: response.url,
+			message,
+		};
 	}
 }
