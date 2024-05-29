@@ -1,8 +1,8 @@
 import { BadResponseError, FetchError, HttpResponseError } from './errors';
 
 /**
- * Stand-in logic for uniquely handling thrown errors. This should do something
- * more purposeful with the error and its details (message, context, cause, etc.)
+ * Stand-in logic for handling thrown errors. This should do something purposeful
+ * with the error and its details (message, context, cause, etc.)
  * - e.g. submit error to logging service, treat uniquely as desired
  */
 export function handleFetchError(err: unknown) {
@@ -20,10 +20,10 @@ export function handleFetchError(err: unknown) {
 }
 
 export function handleHttpResponseError(err: HttpResponseError) {
-	if (!err.context?.message) return err.message;
+	const status = err.context?.status;
 
-	const status = err.context.status;
-	if (status === 404) return err.message;
+	if (!status) return err.message;
+	else if (status === 404) return err.message;
 	else if (status === 500) return err.message;
 	// ...
 	else return err.message;
