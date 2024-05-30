@@ -1,4 +1,4 @@
-import { BadResponseError, FetchError, HttpResponseError } from "./errors";
+import { FetchResponseError, FetchError, HttpResponseError } from "./errors";
 
 /**
  * Stand-in logic for handling thrown errors. This should do something purposeful
@@ -8,7 +8,7 @@ import { BadResponseError, FetchError, HttpResponseError } from "./errors";
 export function handleFetchError(err: unknown) {
 	if (err instanceof FetchError) {
 		return err.message;
-	} else if (err instanceof BadResponseError) {
+	} else if (err instanceof FetchResponseError) {
 		return err.message;
 	} else if (err instanceof HttpResponseError) {
 		return handleHttpResponseError(err);

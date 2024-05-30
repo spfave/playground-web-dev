@@ -6,15 +6,15 @@ export class FetchError extends Error {
 	}
 }
 
-type BadResponseErrorContext = { response?: Response };
-export class BadResponseError extends Error {
-	readonly name = BadResponseError.name;
+type FetchResponseErrorContext = { response?: Response };
+export class FetchResponseError extends Error {
+	readonly name = FetchResponseError.name;
 
 	// Constructor parameter prefixes auto create class property with name and value
 	// Ref: https://www.typescriptlang.org/docs/handbook/2/classes.html#parameter-properties
 	constructor(
-		message: string = "Bad fetch response",
-		readonly context?: BadResponseErrorContext,
+		message: string = "Fetch response not ok",
+		readonly context?: FetchResponseErrorContext,
 		options?: ErrorOptions
 	) {
 		super(message, options);

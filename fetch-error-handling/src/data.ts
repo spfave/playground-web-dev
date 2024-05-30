@@ -1,4 +1,4 @@
-import { FetchError, BadResponseError, HttpResponseError } from "./utils/errors";
+import { FetchError, FetchResponseError, HttpResponseError } from "./utils/errors";
 import { handleFetchError } from "./utils/error-handling";
 import { settledArray } from "./utils/settled";
 import { Project } from "./utils/types";
@@ -51,10 +51,10 @@ export async function getProjectsErrorHandling() {
 	});
 	console.info(`response: `, response); //LOG
 
-	// 2: response can be bad - response.ok is false (response.status != 2xx)
+	// 2: response can not be ok - response.ok is false (response.status != 2xx)
 	if (!response.ok) {
 		console.warn(`GET: response.ok ERROR`); //LOG
-		throw new BadResponseError("Get Projects bad fetch response", { response });
+		throw new FetchResponseError("Get Projects fetch response not ok", { response });
 	}
 
 	// 3: if response.ok is true, response can have an HTTP error status code 4xx, 5xx
@@ -83,11 +83,11 @@ export async function getProjectsSettledErrorHandling() {
 		// return; | Promise.reject(); // return alone will break code execution
 	}
 
-	// 2: response can be bad - response.ok is false (response.status != 2xx)
+	// 2: response can not be ok
 	if (!response.ok)
-		throw new BadResponseError("Get Projects bad fetch response", { response });
+		throw new FetchResponseError("Get Projects fetch response not ok", { response });
 
-	// 3: if response.ok is true, response can have an HTTP error status code 4xx, 5xx
+	// 3: response can have an HTTP error status code 4xx, 5xx
 	if (response.status >= 400) throw new HttpResponseError(response);
 
 	// 4. parsing json can error with a SyntaxError
