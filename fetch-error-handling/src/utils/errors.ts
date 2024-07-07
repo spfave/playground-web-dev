@@ -1,5 +1,5 @@
 export class FetchError extends Error {
-	name = FetchError.name;
+	readonly name = FetchError.name;
 
 	constructor(message: string = "Fetch failed", options?: ErrorOptions) {
 		super(message, options);
