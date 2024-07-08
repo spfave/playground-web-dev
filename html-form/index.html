@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>HTML FORM</title>
+</head>
+
+<style>
+	/* Reset */
+	*,
+	*:before,
+	*:after {
+		box-sizing: border-box;
+		margin: 0;
+	}
+
+	button,
+	input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+	textarea,
+	select {
+		font: inherit;
+		letter-spacing: inherit;
+		word-spacing: inherit;
+	}
+
+	textarea {
+		resize: vertical;
+		min-height: 1.75rem;
+	}
+
+	fieldset {
+		padding: 0;
+		border: none;
+	}
+
+	/* Styles */
+	.html-form {
+		padding: 2rem;
+
+		form {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+
+			label {
+				display: block;
+			}
+
+			input[type="text"],
+			input[type="number"],
+			input[type="date"],
+			legend,
+			textarea,
+			select {
+				width: 100%;
+			}
+
+			textarea {
+				min-height: 3.5rem;
+				max-height: 10.5rem;
+			}
+
+			fieldset {
+				>div {
+					display: flex;
+					align-items: center;
+					gap: 2rem;
+
+					>span {
+						display: flex;
+						gap: 0.5rem;
+					}
+				}
+			}
+
+			input,
+			select,
+			textarea,
+			fieldset {
+				+div {
+					min-height: 1.75rem;
+					padding: 0.25rem 0.25rem;
+					font-size: 0.9rem;
+				}
+			}
+		}
+	}
+
+	.formActions {
+		display: flex;
+		align-items: center;
+		gap: 2rem;
+	}
+</style>
+
+<body class="html-form" action="create">
+	<form method="post">
+		<div>
+			<label htmlFor="name">Name</label>
+			<input id="name" type="text" name="name" value="name" />
+		</div>
+
+		<div>
+			<label htmlFor="link">Link</label>
+			<input id="link" type="text" name="link" value="link" />
+		</div>
+
+		<div>
+			<label htmlFor="description">Description</label>
+			<textarea id="description" name="description">description</textarea>
+		</div>
+
+		<div>
+			<label htmlFor="notes">Notes</label>
+			<textarea id="notes" name="notes">notes</textarea>
+		</div>
+
+		<div>
+			<label htmlFor="status">Status</label>
+			<select id="status" name="status">
+				<option hidden>Select Status</option>
+				<option value="planning">Planning</option>
+				<option value="building" selected>Building</option>
+				<option value="complete">Complete</option>
+			</select>
+		</div>
+
+		<div>
+			<label htmlFor="dateCompleted">Date completed</label>
+			<input id="dateCompleted" type="date" name="dateCompleted" value="2024-07-07" />
+		</div>
+
+		<div>
+			<label htmlFor="rating">Rating</label>
+			<input id="rating" type="number" name="rating" min="1" max="5" value="3" />
+		</div>
+
+		<div>
+			<fieldset>
+				<legend>Would you recommend</legend>
+				<div>
+					<span>
+						<input id="recommend-yes" type="radio" name="recommend" value="yes" checked />
+						<label htmlFor="recommend-yes">Yes</label>
+					</span>
+					<span>
+						<input id="recommend-no" type="radio" name="recommend" value="no" />
+						<label htmlFor="recommend-no">No</label>
+					</span>
+				</div>
+			</fieldset>
+		</div>
+
+		<div>
+			<button type="submit">Post</button>
+			<button type="reset">Reset</button>
+			<button type="button">Btn</button>
+		</div>
+	</form>
+</body>
+
+<script>
+
+	document.querySelector('form').addEventListener('submit', (evt) => {
+		console.warn(`SUBMIT`); //LOG
+		evt.preventDefault();
+		console.info(evt.currentTarget); //LOG
+		console.table(Object.fromEntries(new FormData(evt.currentTarget))); //LOG
+	})
+	// document.querySelector('form').addEventListener('reset', (evt) => {
+	// 	console.warn(`RESET`); //LOG
+	// 	evt.preventDefault();
+	// 	document.querySelector('form').reset();
+	// })
+	document.querySelector('button[type="button"]').addEventListener('click', (evt) => {
+		console.warn(`BUTTON`); //LOG
+		evt.preventDefault();
+		document.querySelector('form').reset();
+	})
+</script>
+
+</html>
