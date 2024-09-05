@@ -18,9 +18,9 @@ export async function settledObject<TPromise>(promise: Promise<TPromise>) {
 	 * type could be null/undefined.
 	 * Alternately need to define/assert return type on function/return to get desired TS inference.
 	 */
-	return pSettled.status === "fulfilled" // ? 'fulfilled' : 'rejected'
-		? ({ error: null, value: pSettled.value } as const)
-		: ({ error: pSettled.reason as NonNullish, value: null } as const);
+	// return pSettled.status === "fulfilled" // ? 'fulfilled' : 'rejected'
+	// 	? ({ error: null, value: pSettled.value } as const)
+	// 	: ({ error: pSettled.reason as NonNullish, value: null } as const);
 	// : ({ error: pSettled.reason as unknown, value: null } as const);
 
 	// Method 2 - with defined/asserted return type
@@ -30,6 +30,11 @@ export async function settledObject<TPromise>(promise: Promise<TPromise>) {
 	// return pSettled.status === 'fulfilled'
 	// 	? ({ error: false, value: pSettled.value } as SettledObject<TPromise>)
 	// 	: ({ error: true, reason: pSettled.reason } as SettledObject<TPromise>); // type assertion
+
+	// Method 3 - with discriminator
+	return pSettled.status === "fulfilled" // ? 'fulfilled' : 'rejected'
+		? ({ complete: true, value: pSettled.value } as const)
+		: ({ complete: false, error: pSettled.reason as unknown } as const);
 }
 
 async function handleSettledObject() {
@@ -44,8 +49,8 @@ async function handleSettledObject() {
 		const err = result.error;
 		const val = result.value;
 	}
-	const err = result.error;
-	const val = result.value;
+	const err1a = result.error;
+	const val1a = result.value;
 
 	const { value, error } = await settledObject(getProjectsHappyPath()); // same results as non-destructuring
 	if (error != null) {
@@ -56,8 +61,8 @@ async function handleSettledObject() {
 		const err = error;
 		const val = value;
 	}
-	const err1 = error;
-	const val1 = value;
+	const err1b = error;
+	const val1b = value;
 
 	// Method 2
 	// if (result.error) {
@@ -70,9 +75,22 @@ async function handleSettledObject() {
 	// 	const rsn = result.reason;
 	// 	const val = result.value;
 	// }
-	// const err = result.error;
-	// const rsn = result.reason;
-	// const val = result.value;
+	// const err2 = result.error;
+	// const rsn2 = result.reason;
+	// const val2 = result.value;
+
+	// Method 3
+	if (!result.complete) {
+		const c = result.complete;
+		const err = result.error;
+		const val = result.value;
+	} else {
+		const c = result.complete;
+		const err = result.error;
+		const val = result.value;
+	}
+	const err3 = result.error;
+	const val3 = result.value;
 }
 
 // ARRAY FORM -------------------------------------------------------------------------------------
