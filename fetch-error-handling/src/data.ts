@@ -1,6 +1,6 @@
 import { FetchError, FetchResponseError, HttpResponseError } from "./utils/errors";
 import { handleFetchError } from "./utils/error-handling";
-import { settledArray } from "./utils/settled";
+import { settledArray } from "./utils/promise-settled";
 import { Project } from "./utils/types";
 
 const URL_API_JSON_SERVER = "http://localhost:5001";
