@@ -12,6 +12,11 @@ export async function fetchProjectsHappyPath() {
 	console.info(`projects: `, projects); //LOG
 }
 
+export class GetProjectsError extends Error {
+	constructor(message: string = "Get Projects Error", options?: ErrorOptions) {
+		super(message, options);
+	}
+}
 export async function getProjectsHappyPath() {
 	const response = await fetch(REQUEST_URL);
 	console.warn(`response: `, response); //LOG

@@ -1,8 +1,8 @@
-import { getProjectsHappyPath } from "../data";
+import { GetProjectsError, getProjectsHappyPath } from "../data";
 import { Failure, Success } from "./try-failure-success";
-import { NonNullish } from "./types";
+import { NonNullish, Project } from "./types";
 
-// SETTLED PROMISE HELPER
+// SETTLED ASYNC/PROMISE HELPER
 // ARRAY FORM -------------------------------------------------------------------------------------
 export async function settledArray<TPromise>(promise: Promise<TPromise>) {
 	const pSettled = (await Promise.allSettled([promise]))[0];
@@ -139,16 +139,23 @@ async function handleSettledObject() {
 }
 
 // OBJECT FORM FAILURE/SUCCESS --------------------------------------------------------------------
-export async function settledObjectFailureSuccess<TPromise>(promise: Promise<TPromise>) {
+// alt name: safeAwait, [safePromise], safeSettle(d)
+export async function settledObjectFailureSuccess<
+	TError extends any = unknown,
+	TPromise extends any = unknown
+>(promise: Promise<TPromise>) {
 	const pSettled = (await Promise.allSettled([promise]))[0];
 
 	return pSettled.status === "fulfilled" // ? 'fulfilled' : 'rejected'
 		? Success(pSettled.value)
-		: Failure(pSettled.reason as unknown);
+		: Failure(pSettled.reason as TError);
 }
 
 async function handleSettledObjectFailureSuccess() {
-	const result = await settledObjectFailureSuccess(getProjectsHappyPath());
+	// const result = await settledObjectFailureSuccess(getProjectsHappyPath());
+	const result = await settledObjectFailureSuccess<GetProjectsError, Project[]>(
+		getProjectsHappyPath()
+	);
 
 	if (!result.ok) {
 		const err = result.error;
