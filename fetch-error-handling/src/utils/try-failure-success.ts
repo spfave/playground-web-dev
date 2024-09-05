@@ -11,20 +11,20 @@ console.log(result);
 
 // FAILURE OR SUCCESS -----------------------------------------------------------------------------
 // Ref: https://twitter.com/mattpocockuk/status/1824437662515614176
-//      https://twitter.com/mattpocockuk/status/1633064377518628866
+//
 
 // export type Failure<T> = { ok: false; error: T };
 // export type Success<T> = { ok: true; value: T };
-export interface Failure<T> {
+export interface Failure<E> {
 	ok: false;
-	error: T;
+	error: E;
 }
 export interface Success<T> {
 	ok: true;
 	value: T;
 }
 
-export function Failure<T>(error: T): Failure<T> {
+export function Failure<E>(error: E): Failure<E> {
 	return { ok: false, error };
 }
 export function Success<T>(value: T): Success<T> {
@@ -53,3 +53,28 @@ if (!result2.ok) {
 console.log(result2);
 
 const tmp: Failure<string> = { ok: false, error: "" };
+
+// MAKE SAFE --------------------------------------------------------------------------------------
+// Ref: https://twitter.com/mattpocockuk/status/1633064377518628866
+export function makeSafe<TArgs extends any[], TReturn>(
+	func: (...args: TArgs) => TReturn
+) {
+	return function (...args: TArgs): Success<TReturn> | Failure<unknown> {
+		try {
+			return Success(func(...args));
+		} catch (err) {
+			return Failure(err);
+		}
+	};
+}
+
+// const trySafe = makeSafe(tryErrorResult)
+// const trySafe = makeSafe(tryFailureSuccess);
+const trySafe = makeSafe(function () {
+	const num = Math.random();
+	if (num < 0.5) throw new Error("Random number too low");
+	return num;
+});
+const result3 = trySafe();
+if (!result3.ok) console.log(result3.error);
+else console.log(result3.value);
