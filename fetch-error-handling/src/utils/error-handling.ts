@@ -41,4 +41,5 @@ export function getErrorMessage(err: unknown) {
 	}
 	console.error("Unable to get error message for error", err);
 	return "Unknown Error";
+	// return JSON.stringify(err);
 }
