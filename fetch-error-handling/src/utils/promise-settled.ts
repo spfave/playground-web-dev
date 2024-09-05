@@ -1,7 +1,51 @@
 import { getProjectsHappyPath } from "../data";
+import { Failure, Success } from "./try-failure-success";
 import { NonNullish } from "./types";
 
 // SETTLED PROMISE HELPER
+// ARRAY FORM -------------------------------------------------------------------------------------
+export async function settledArray<TPromise>(promise: Promise<TPromise>) {
+	const pSettled = (await Promise.allSettled([promise]))[0];
+
+	/**
+	 * For rejected case define error as '{}: non-nullish' type to get desired TS type narrowing inference.
+	 * If natively inferred as 'any' or asserted as 'unknown' TS does not narrow type through an if check.
+	 * Since the error could be any/unknown (rejected) or null/undefined (fulfilled), and an any/unknown
+	 * type could be null/undefined.
+	 */
+	return pSettled.status === "fulfilled" // ? 'fulfilled' : 'rejected'
+		? ([null, pSettled.value] as const)
+		: ([pSettled.reason as NonNullish, null] as const);
+	// : ([pSettled.reason as unknown, null] as const);
+}
+
+async function handleSettledArray() {
+	const result = await settledArray(getProjectsHappyPath());
+
+	if (result[0] != null) {
+		const err = result[0];
+		const val = result[1];
+		throw err; // need to return or throw to get proper inference after if check scope
+	} else {
+		const err = result[0];
+		const val = result[1];
+	}
+	const err = result[0];
+	const val = result[1];
+
+	const [error, value] = await settledArray(getProjectsHappyPath()); // same results as non-destructuring
+	if (error != null) {
+		const err = error;
+		const val = value;
+		return;
+	} else {
+		const err = error;
+		const val = value;
+	}
+	const err2 = error;
+	const val2 = value;
+}
+
 // OBJECT FORM ------------------------------------------------------------------------------------
 // type SettledObject<T> = { error: false; value: T } | { error: true; reason: unknown };
 // async function settledObject<TPromise>(promise: Promise<TPromise>): Promise<SettledObject<TPromise>> {
@@ -84,6 +128,7 @@ async function handleSettledObject() {
 		const c = result.complete;
 		const err = result.error;
 		const val = result.value;
+		return;
 	} else {
 		const c = result.complete;
 		const err = result.error;
@@ -93,45 +138,26 @@ async function handleSettledObject() {
 	const val3 = result.value;
 }
 
-// ARRAY FORM -------------------------------------------------------------------------------------
-export async function settledArray<TPromise>(promise: Promise<TPromise>) {
+// OBJECT FORM FAILURE/SUCCESS --------------------------------------------------------------------
+export async function settledObjectFailureSuccess<TPromise>(promise: Promise<TPromise>) {
 	const pSettled = (await Promise.allSettled([promise]))[0];
 
-	/**
-	 * For rejected case define error as '{}: non-nullish' type to get desired TS type narrowing inference.
-	 * If natively inferred as 'any' or asserted as 'unknown' TS does not narrow type through an if check.
-	 * Since the error could be any/unknown (rejected) or null/undefined (fulfilled), and an any/unknown
-	 * type could be null/undefined.
-	 */
 	return pSettled.status === "fulfilled" // ? 'fulfilled' : 'rejected'
-		? ([null, pSettled.value] as const)
-		: ([pSettled.reason as NonNullish, null] as const);
-	// : ([pSettled.reason as unknown, null] as const);
+		? Success(pSettled.value)
+		: Failure(pSettled.reason as unknown);
 }
 
-async function handleSettledArray() {
-	const result = await settledArray(getProjectsHappyPath());
+async function handleSettledObjectFailureSuccess() {
+	const result = await settledObjectFailureSuccess(getProjectsHappyPath());
 
-	if (result[0] != null) {
-		const err = result[0];
-		const val = result[1];
+	if (!result.ok) {
+		const err = result.error;
+		// const val = result.value;
 		throw err; // need to return or throw to get proper inference after if check scope
 	} else {
-		const err = result[0];
-		const val = result[1];
+		// const err = result.error;
+		const val = result.value;
 	}
-	const err = result[0];
-	const val = result[1];
-
-	const [error, value] = await settledArray(getProjectsHappyPath()); // same results as non-destructuring
-	if (error != null) {
-		const err = error;
-		const val = value;
-		return;
-	} else {
-		const err = error;
-		const val = value;
-	}
-	const err2 = error;
-	const val2 = value;
+	// const err = result.error;
+	const val = result.value;
 }
