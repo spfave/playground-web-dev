@@ -9,7 +9,7 @@ const REQUEST_URL = `${URL_API_JSON_SERVER}/projects`; //qk01
 // HAPPY PATH -----------------------------------------------------------------
 export async function fetchProjectsHappyPath() {
 	const projects = await getProjectsHappyPath();
-	console.warn(`projects: `, projects); //LOG
+	console.info(`projects: `, projects); //LOG
 }
 
 export async function getProjectsHappyPath() {
