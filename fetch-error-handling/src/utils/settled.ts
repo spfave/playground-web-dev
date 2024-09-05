@@ -14,14 +14,14 @@ export async function settledObject<TPromise>(promise: Promise<TPromise>) {
 	 * For rejected case define error as '{}: non-nullish' type to get desired TS inference of a returned
 	 * discriminated union and desired type narrowing through an if check.
 	 * If natively inferred as 'any' or asserted as 'unknown' TS does not narrow type through an if check.
-	 * Since the error could be any/unknown (rejected) or undefined (fulfilled), and an any/unknown type
-	 * could be undefined.
+	 * Since the error could be any/unknown (rejected) or null/undefined (fulfilled), and an any/unknown
+	 * type could be null/undefined.
 	 * Alternately need to define/assert return type on function/return to get desired TS inference.
 	 */
 	return pSettled.status === "fulfilled" // ? 'fulfilled' : 'rejected'
-		? ({ error: undefined, value: pSettled.value } as const)
-		: ({ error: pSettled.reason as NonNullish, value: undefined } as const);
-	// : ({ error: pSettled.reason as unknown, value: undefined } as const);
+		? ({ error: null, value: pSettled.value } as const)
+		: ({ error: pSettled.reason as NonNullish, value: null } as const);
+	// : ({ error: pSettled.reason as unknown, value: null } as const);
 
 	// Method 2 - with defined/asserted return type
 	// return pSettled.status === 'fulfilled'
@@ -56,6 +56,8 @@ async function handleSettledObject() {
 		const err = error;
 		const val = value;
 	}
+	const err1 = error;
+	const val1 = value;
 
 	// Method 2
 	// if (result.error) {
@@ -80,13 +82,13 @@ export async function settledArray<TPromise>(promise: Promise<TPromise>) {
 	/**
 	 * For rejected case define error as '{}: non-nullish' type to get desired TS type narrowing inference.
 	 * If natively inferred as 'any' or asserted as 'unknown' TS does not narrow type through an if check.
-	 * Since the error could be any/unknown (rejected) or undefined (fulfilled), and an any/unknown type
-	 * could be undefined.
+	 * Since the error could be any/unknown (rejected) or null/undefined (fulfilled), and an any/unknown
+	 * type could be null/undefined.
 	 */
 	return pSettled.status === "fulfilled" // ? 'fulfilled' : 'rejected'
-		? ([undefined, pSettled.value] as const)
-		: ([pSettled.reason as NonNullish, undefined] as const);
-	// : ([pSettled.reason as unknown, undefined] as const);
+		? ([null, pSettled.value] as const)
+		: ([pSettled.reason as NonNullish, null] as const);
+	// : ([pSettled.reason as unknown, null] as const);
 }
 
 async function handleSettledArray() {
@@ -112,4 +114,6 @@ async function handleSettledArray() {
 		const err = error;
 		const val = value;
 	}
+	const err2 = error;
+	const val2 = value;
 }

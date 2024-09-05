@@ -9,7 +9,7 @@ async function attempt<TPromise>(
 	finallyFn = () => {}
 ) {
 	let value;
-	let exception;
+	let error;
 
 	/**
 	 * For rejected case define error as '{}: non-nullish' type to get desired TS inference of a returned
@@ -22,30 +22,30 @@ async function attempt<TPromise>(
 	try {
 		// value = await asyncFn();
 		value = await promise;
-		return { exception: undefined, value } as const;
+		return { error: undefined, value } as const;
 	} catch (err) {
-		exception = err;
+		error = err;
 		value = catchFn(err);
-		return { exception: exception as NonNullish, value } as const;
+		return { error: err as NonNullish, value } as const;
 	} finally {
 		finallyFn();
 	}
 
-	// return { value, exception };
+	// return { value, error };
 }
 
 async function handleAttempt() {
 	// const result = await attempt(() => getProjectsHappyPath());
 	const result = await attempt(getProjectsHappyPath());
 
-	if (result.exception != null) {
-		const exc = result.exception; // not null | undefined or non-false value?
+	if (result.error != null) {
+		const err = result.error; // not null | undefined or non-false value?
 		const val = result.value;
-		throw exc;
+		throw err;
 	} else {
-		const exc = result.exception;
+		const err = result.error;
 		const val = result.value;
 	}
-	const exc = result.exception;
+	const err = result.error;
 	const val = result.value;
 }
