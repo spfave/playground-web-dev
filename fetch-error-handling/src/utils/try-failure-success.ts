@@ -13,9 +13,9 @@ console.log(result);
 // Ref: https://twitter.com/mattpocockuk/status/1824437662515614176
 
 // - type or interface definition work the same
-// export type Failure<T> = Readonly<{ ok: false; error: T }>;
+// export type Failure<E extends any = unknown> = Readonly<{ ok: false; error: E }>;
 // export type Success<T> = Readonly<{ ok: true; value: T }>;
-export interface Failure<E> {
+export interface Failure<E extends any = unknown> {
 	readonly ok: false;
 	readonly error: E;
 }
@@ -24,7 +24,7 @@ export interface Success<T> {
 	readonly value: T;
 }
 
-export function Failure<E>(error: E): Failure<E> {
+export function Failure<E extends any = unknown>(error: E): Failure<E> {
 	return { ok: false, error };
 }
 export function Success<T>(value: T): Success<T> {
@@ -32,7 +32,7 @@ export function Success<T>(value: T): Success<T> {
 }
 
 // - class definition requires use of new keyword on creation
-// export class Failure<E> {
+// export class Failure<E extends any = unknown> {
 // 	readonly ok = false;
 // 	constructor(readonly error: E) {}
 // }
