@@ -1,34 +1,34 @@
 // Based on User object returned from https://jsonplaceholder.typicode.com/
 
 export interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
+	id: number;
+	name: string;
+	username: string;
+	email: string;
 
-  address?: Address;
-  phone?: string;
-  website?: string;
+	address?: Address;
+	phone?: string;
+	website?: string;
 
-  company?: Company;
+	company?: Company;
 }
 
 interface Address {
-  street: string;
-  suite: string;
-  city: string;
-  zipcode: string;
+	street: string;
+	suite: string;
+	city: string;
+	zipcode: string;
 
-  geo?: {
-    lat: string;
-    lng: string;
-  };
+	geo?: {
+		lat: string;
+		lng: string;
+	};
 }
 
 interface Company {
-  name: string;
-  catchPhrase?: string;
-  bs?: string;
+	name: string;
+	catchPhrase?: string;
+	bs?: string;
 }
 
 export type Users = User[];
