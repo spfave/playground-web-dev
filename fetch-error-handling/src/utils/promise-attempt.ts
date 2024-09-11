@@ -62,7 +62,7 @@ export async function attemptFailureSuccess<
 	TError extends any = unknown,
 	TPromise extends any = unknown
 >(
-	asyncFunc: (...args: any[]) => Promise<TPromise>,
+	asyncFunc: () => Promise<TPromise>,
 	catchFunc = (_err: unknown) => {},
 	finallyFunc = () => {}
 ): Promise<Failure<TError> | Success<TPromise>> {
