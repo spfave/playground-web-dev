@@ -1,0 +1,16 @@
+{
+	"name": "jsdoc",
+	"version": "1.0.0",
+	"type": "module",
+	"description": "",
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"main": "index.js",
+	"scripts": {
+		"gen:jsDocs": "node ./node_modules/jsdoc/jsdoc.js -c ./jsdoc.config.json"
+	},
+	"devDependencies": {
+		"jsdoc": "^4.0.3"
+	}
+}
