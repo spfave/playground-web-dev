@@ -109,12 +109,12 @@
 
 		<div>
 			<label htmlFor="description">Description</label>
-			<textarea id="description" name="description">description</textarea>
+			<textarea id="description" name="description">description...</textarea>
 		</div>
 
 		<div>
 			<label htmlFor="notes">Notes</label>
-			<textarea id="notes" name="notes">notes</textarea>
+			<textarea id="notes" name="notes">notes...</textarea>
 		</div>
 
 		<div>
@@ -154,7 +154,7 @@
 		</div>
 
 		<div>
-			<button type="submit">Post</button>
+			<button type="submit">Submit</button>
 			<button type="reset">Reset</button>
 			<button type="button">Btn</button>
 		</div>
@@ -166,8 +166,15 @@
 	document.querySelector('form').addEventListener('submit', (evt) => {
 		console.warn(`SUBMIT`); //LOG
 		evt.preventDefault();
-		console.info(evt.currentTarget); //LOG
-		console.table(Object.fromEntries(new FormData(evt.currentTarget))); //LOG
+		console.info(`evt: `, evt);  //LOG
+		console.info(`evt.target: `, evt.target);  //LOG
+		console.info(`evt.currentTarget: `, evt.currentTarget);  //LOG
+
+		const formData = new FormData(evt.currentTarget);
+		const formObj = Object.fromEntries(formData);
+		console.info(`formData: `, formData);  //LOG
+		console.info(`formObj: `, formObj);  //LOG
+		console.table(formObj); //LOG
 	})
 	// document.querySelector('form').addEventListener('reset', (evt) => {
 	// 	console.warn(`RESET`); //LOG
