@@ -6,18 +6,20 @@ export class FetchError extends Error {
 	}
 }
 
-type FetchResponseErrorContext = { response?: Response };
+// type FetchResponseErrorContext = { response?: Response };
 export class FetchResponseError extends Error {
 	readonly name = FetchResponseError.name;
+	// readonly context?: FetchResponseErrorContext;
 
 	// Constructor parameter prefixes auto create class property with name and value
 	// Ref: https://www.typescriptlang.org/docs/handbook/2/classes.html#parameter-properties
 	constructor(
 		message: string = "Fetch response not ok",
-		readonly context?: FetchResponseErrorContext,
+		// context?: FetchResponseErrorContext,
 		options?: ErrorOptions
 	) {
 		super(message, options);
+		// this.context = context;
 	}
 }
 

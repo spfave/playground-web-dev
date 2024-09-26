@@ -59,7 +59,9 @@ export async function getProjectsErrorHandling() {
 	// 2: response can not be ok - response.ok is false (response.status != 2xx)
 	if (!response.ok) {
 		console.warn(`GET: response.ok ERROR`); //LOG
-		throw new FetchResponseError("Get Projects fetch response not ok", { response });
+		throw new FetchResponseError("Get Projects fetch response not ok", {
+			cause: response,
+		});
 	}
 
 	// 3: if response.ok is true, response can have an HTTP error status code 4xx, 5xx
@@ -90,10 +92,14 @@ export async function getProjectsSettledErrorHandling() {
 
 	// 2: response can not be ok
 	if (!response.ok)
-		throw new FetchResponseError("Get Projects fetch response not ok", { response });
+		throw new FetchResponseError("Get Projects fetch response not ok", {
+			cause: response,
+		});
 
 	// 3: response can have an HTTP error status code 4xx, 5xx
-	if (response.status >= 400) throw new HttpResponseError(response);
+	// Can swap order of 2. and 3. to check errors on status code first and then on 'ok' property
+	if (response.status >= 400)
+		throw new HttpResponseError(response, "Get Projects fetch respnse with status 400");
 
 	// 4. parsing json can error with a SyntaxError
 	// const [err2, json] = await settledArray(response.json()); // can't assert json data type inline
