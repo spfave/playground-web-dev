@@ -195,6 +195,7 @@ class Person {
  * Person2 constructor description
  * @class
  * @classdesc Class desc: Person2 class description
+ * //@description Description: Person 2 description // overwrites constructor description
  *
  * @property {string} name Person's name
  * @property {number} age Person's age
