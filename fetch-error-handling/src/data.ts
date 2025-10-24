@@ -21,7 +21,7 @@ export async function getProjectsHappyPath() {
 	const response = await fetch(REQUEST_URL);
 	console.warn(`response: `, response); //LOG
 
-	// const data = await response.json(); // returns 'unknown' with ts-reset, otherwise any
+	// const data = await response.json(); // returns 'unknown' without type assertion
 	const data = (await response.json()) as Project[];
 	console.warn(`data: `, data); //LOG
 
@@ -49,7 +49,7 @@ export async function getProjectsErrorHandling() {
 	const response = await fetch(REQUEST_URL).catch((err) => {
 		console.warn(`GET: fetch ERROR`); //LOG
 		console.error(`err: `, err); //LOG
-		throw new FetchError("Get Projects fetch failed", { cause: err });
+		throw new FetchError("Fetch failed for getProjects", { cause: err });
 		// return; | Promise.reject();
 		// return alone will cause catch fn to return void but doesn't break code execution
 		// return a promise rejection will break code execution
@@ -59,7 +59,7 @@ export async function getProjectsErrorHandling() {
 	// 2: response can not be ok - response.ok is false (response.status != 2xx)
 	if (!response.ok) {
 		console.warn(`GET: response.ok ERROR`); //LOG
-		throw new FetchResponseError("Get Projects fetch response not ok", {
+		throw new FetchResponseError("Fetch response not ok for getProjects", {
 			cause: response,
 		});
 	}
@@ -71,7 +71,7 @@ export async function getProjectsErrorHandling() {
 		// console.warn(`REQ Method: `, response.headers.get('content-type')); //LOG
 		// response.headers.forEach((val, name) => console.info(`${name}: ${val}`));
 
-		throw new HttpResponseError(response, "Get Projects http response error");
+		throw new HttpResponseError(response, "Http status error for getProjects");
 	}
 
 	// 4. parsing json can error with a SyntaxError
@@ -99,7 +99,7 @@ export async function getProjectsSettledErrorHandling() {
 	// 3: response can have an HTTP error status code 4xx, 5xx
 	// Can swap order of 2. and 3. to check errors on status code first and then on 'ok' property
 	if (response.status >= 400)
-		throw new HttpResponseError(response, "Get Projects fetch respnse with status 400");
+		throw new HttpResponseError(response, "Get Projects fetch response with status 400");
 
 	// 4. parsing json can error with a SyntaxError
 	// const [err2, json] = await settledArray(response.json()); // can't assert json data type inline
