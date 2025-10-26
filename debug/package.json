@@ -1,0 +1,13 @@
+{
+	"name": "debug",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"main": "index.js",
+	"scripts": {
+		"runjs": "node ./debug.js",
+		"debugjs": "node --inspect ./debug.js",
+		"runts": "node ./debug.ts",
+		"debugts": "node --inspect ./debug.ts"
+	}
+}
