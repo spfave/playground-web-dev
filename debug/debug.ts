@@ -1,13 +1,3 @@
-// Ref: https://code.visualstudio.com/docs/debugtest/debugging
-// Ref: https://code.visualstudio.com/docs/debugtest/debugging-configuration
-
-// Ref: https://code.visualstudio.com/docs/nodejs/browser-debugging
-// Ref: https://code.visualstudio.com/docs/nodejs/nodejs-debugging
-// Ref: https://code.visualstudio.com/docs/nodejs/nodejs-tutorial#_debug-your-express-app
-
-// Ref: https://code.visualstudio.com/docs/typescript/typescript-debugging
-// Ref: https://code.visualstudio.com/docs/typescript/typescript-tutorial?originUrl=%2Fdocs%2Ftypescript%2Ftypescript-compiling
-
 function addTS(a: number, b: number) {
 	return a + b;
 }
