@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>CSS | :has</title>
+	<link rel="stylesheet" href="has.css" />
+</head>
+
+<body>
+	<div>
+		<form class="">
+			<div class="">
+				<div>
+					<label for="status">Status</label>
+					<select id="status" name="status">
+						<option hidden value="">Select Status</option>
+						<option value="planning">Planning</option>
+						<option value="building">Building</option>
+						<option value="complete">Complete</option>
+					</select>
+				</div>
+
+				<!-- conditional -->
+				<div class="conditional">
+					<label for="dateCompleted">Date Completed</label>
+					<input id="dateCompleted" type="date" name="dateCompleted" />
+				</div>
+			</div>
+
+			<!-- conditional -->
+			<div class="conditional">
+				<div>
+					<label for="rating">Rating</label>
+					<input id="rating" type="number" name="rating" />
+				</div>
+
+				<div>
+					<label for="color">Color</label>
+					<input id="color" type="color" name="color" />
+				</div>
+			</div>
+
+			<div class="">
+				<button class="" type="submit">
+					Submit
+				</button>
+				<button class="" type="reset">
+					Reset
+				</button>
+				<a href="has.html">Has</a>
+			</div>
+		</form>
+	</div>
+</body>
+<script type="module" defer>
+	const status = document.getElementById('status');
+
+	function updateConditionalFields() {
+		const isComplete = status.value === 'complete';
+		document.querySelectorAll('.conditional input').forEach(input => {
+			input.disabled = !isComplete;
+		});
+	}
+
+	status.addEventListener('change', updateConditionalFields);
+	updateConditionalFields();
+</script>
+
+</html>

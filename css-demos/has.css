@@ -1,0 +1,82 @@
+form {
+	display: grid;
+	gap: 0.5rem;
+
+	label {
+		display: block;
+		margin-bottom: 0.25rem;
+	}
+
+	& input:not([type="radio"]),
+	select {
+		width: 100%;
+	}
+
+	& input:not([type="radio"]),
+	select {
+		padding: 0.25rem;
+		border-radius: 0.25rem;
+		border-width: 0px;
+		outline: 1px solid grey;
+	}
+
+	input,
+	select {
+		+ div {
+			min-height: 1.75rem;
+			padding: 0.25rem;
+			font-size: 0.9rem;
+		}
+	}
+}
+
+.formFlexGroup {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+
+	> div {
+		min-width: 25ch;
+		flex: 1;
+	}
+}
+.formColGroup {
+	/* input: css auto-fill grid with max number of columns  */
+	/* Ref: https://css-tricks.com/an-auto-filling-css-grid-with-max-columns */
+	--grid-col-max-num: 2;
+	--grid-col-gap: 1rem;
+	--grid-col-min-width: 25ch;
+	--grid-row-gap: 0.5rem;
+
+	/* calc values */
+	--gap-count: calc(var(--grid-col-max-num) - 1);
+	--total-gap-width: calc(var(--gap-count) * var(--grid-col-gap));
+	--grid-item-max-width: calc((100% - var(--total-gap-width)) / var(--grid-col-max-num));
+
+	/* grid */
+	display: grid;
+	grid-template-columns: repeat(
+		auto-fill,
+		minmax(max(var(--grid-col-min-width), var(--grid-item-max-width)), 1fr)
+	);
+	column-gap: var(--grid-col-gap);
+	row-gap: var(--grid-row-gap);
+}
+
+/*
+Refs
+:has MDN 						https://developer.mozilla.org/en-US/docs/Web/CSS/:has
+:is, :where, :has		https://www.youtube.com/watch?v=3ncFpP8GP4g
+:has KP							https://www.youtube.com/watch?v=OGJvhpoE8b4
+:has KP							https://www.youtube.com/watch?v=cxSowU9sDdU
+:has WDS						https://www.youtube.com/watch?v=K6CWjkDgQnE
+:has Syntax					https://www.youtube.com/watch?v=k2_QGzJkQXM
+*/
+.conditional {
+	display: none;
+}
+
+/* Show when select has "complete" selected */
+form:has(select#status option[value="complete"]:checked) .conditional {
+	display: block;
+}
