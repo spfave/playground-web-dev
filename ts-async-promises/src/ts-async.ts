@@ -20,7 +20,7 @@ const promUsersTyped = new Promise(async (resolve, _reject) => {
   const res = await fetch(urlUsers);          // res: Response
   // const data = await res.json();           // data: any
   // const data = await res.json() as Users;  // data: Users
-  const data:Users = await res.json();        // data: Users
+  const data: Users = await res.json();        // data: Users
   console.info(`res: `, res);
   console.info(`data: `, data);
   resolve(data);
